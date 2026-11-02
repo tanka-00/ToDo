@@ -3,10 +3,6 @@ using System.Security.Cryptography;
 
 namespace toDo.Models
 {
-    /// <summary>
-    /// PBKDF2 password hashing that matches the existing console generator:
-    /// 16-byte salt, 100,000 iterations, 32-byte hash, SHA-1 (the Rfc2898DeriveBytes default).
-    /// </summary>
     public static class PasswordHasher
     {
         private const int SaltSize = 16;

@@ -4,10 +4,6 @@ using System.Web.Mvc;
 
 namespace toDo.Filters
 {
-    /// <summary>
-    /// Protects the User and Admin panels by role.
-    /// AJAX requests receive 401/403 instead of an HTML login redirect.
-    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class PanelAuthorizeAttribute : AuthorizeAttribute
     {
@@ -23,7 +19,6 @@ namespace toDo.Filters
         {
             HttpContextBase http = filterContext.HttpContext;
 
-            // AJAX callers need a status code, not a redirect to a login page.
             if (http.Request.IsAjaxRequest())
             {
                 http.Response.SuppressFormsAuthenticationRedirect = true;
@@ -41,7 +36,6 @@ namespace toDo.Filters
                 return;
             }
 
-            // Browser requests go to the login page for the panel they tried to open.
             string loginUrl = Panel == "Admin" ? "~/Admin/Login" : "~/Account/Login";
             string returnUrl = http.Server.UrlEncode(http.Request.RawUrl);
 

@@ -7,16 +7,8 @@ using toDo.Models;
 
 namespace toDo.Controllers
 {
-    /// <summary>
-    /// Shared login and session helpers for the Account, User, and Admin controllers.
-    /// The Forms Authentication ticket stores "userId|role" in its UserData.
-    /// </summary>
     public abstract class BaseController : Controller
     {
-        /// <summary>
-        /// Reads the signed-in user's ID from the authentication ticket.
-        /// Returns 0 when nobody is signed in.
-        /// </summary>
         protected int CurrentUserId
         {
             get
@@ -35,10 +27,6 @@ namespace toDo.Controllers
             }
         }
 
-        /// <summary>
-        /// Creates the authentication cookie after a successful login.
-        /// Remember me lasts 7 days; a normal login lasts 120 minutes.
-        /// </summary>
         protected void SignIn(User user, bool rememberMe)
         {
             string userData = user.UserId + "|" + user.Role;
@@ -75,9 +63,6 @@ namespace toDo.Controllers
             FormsAuthentication.SignOut();
         }
 
-        /// <summary>
-        /// Sends a signed-in user to their own panel.
-        /// </summary>
         protected ActionResult RedirectToPanel()
         {
             if (!User.Identity.IsAuthenticated)
@@ -90,9 +75,6 @@ namespace toDo.Controllers
                 : RedirectToAction("Index", "User");
         }
 
-        /// <summary>
-        /// Builds avatar initials from the first two words of a name.
-        /// </summary>
         protected static string GetInitials(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -108,9 +90,6 @@ namespace toDo.Controllers
             return string.Concat(parts.Select(part => char.ToUpperInvariant(part[0])));
         }
 
-        /// <summary>
-        /// Returns the first word of a name for the dashboard greeting.
-        /// </summary>
         protected static string GetFirstName(string name)
         {
             string[] parts = (name ?? string.Empty)
@@ -119,9 +98,6 @@ namespace toDo.Controllers
             return parts.Length > 0 ? parts[0] : string.Empty;
         }
 
-        /// <summary>
-        /// Returns a time-of-day greeting for the user dashboard.
-        /// </summary>
         protected static string GetGreeting()
         {
             int hour = DateTime.Now.Hour;

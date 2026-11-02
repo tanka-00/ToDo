@@ -95,7 +95,6 @@ namespace toDo.Controllers
             string name = (model.Name ?? string.Empty).Trim();
             string email = (model.Email ?? string.Empty).Trim().ToLowerInvariant();
 
-            // Check again after trimming spaces.
             if (name.Length < 2)
             {
                 ModelState.AddModelError("Name", "Enter your name.");
@@ -123,7 +122,6 @@ namespace toDo.Controllers
             }
             catch (SqlException ex)
             {
-                // SQL Server errors 2601 and 2627 mean the email is already used.
                 if (ex.Number != 2601 && ex.Number != 2627)
                 {
                     throw;
@@ -142,7 +140,6 @@ namespace toDo.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        // Reads one user row with the GetUserByEmail stored procedure.
         private User GetUserByEmail(string email)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -174,7 +171,6 @@ namespace toDo.Controllers
             }
         }
 
-        // Inserts a new user with the RegisterUser stored procedure.
         private int RegisterUser(string name, string email, string hash, string salt)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
