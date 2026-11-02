@@ -83,6 +83,7 @@ namespace toDo.Controllers
         {
             User admin = GetUserById(CurrentUserId);
 
+            // Check the database role too: the cookie's role could be stale.
             if (admin == null || admin.Role != "Admin")
             {
                 SignOutUser();
@@ -91,9 +92,8 @@ namespace toDo.Controllers
 
             ViewBag.DisplayName = admin.Name;
             ViewBag.Initials = GetInitials(admin.Name);
-            ViewBag.FirstName = admin.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? admin.Name;
 
-            return View(admin);
+            return View();
         }
 
         [HttpGet]
@@ -183,6 +183,7 @@ namespace toDo.Controllers
             };
         }
 
+        // Reads one user row with the GetUserByEmail stored procedure.
         private User GetUserByEmail(string email)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -214,6 +215,7 @@ namespace toDo.Controllers
             }
         }
 
+        // Reads one user row with the GetUserById stored procedure.
         private User GetUserById(int userId)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -243,6 +245,7 @@ namespace toDo.Controllers
             }
         }
 
+        // Reads all normal users and their task counts with the GetUsers procedure.
         private List<UserSummary> GetUserSummaries()
         {
             var users = new List<UserSummary>();
@@ -274,6 +277,7 @@ namespace toDo.Controllers
             return users;
         }
 
+        // Reads one user's tasks with the GetTasks stored procedure.
         private List<TaskItem> GetTasksForUser(int userId)
         {
             var tasks = new List<TaskItem>();
@@ -306,6 +310,7 @@ namespace toDo.Controllers
             return tasks;
         }
 
+        // Changes a user's active status with the ToggleUserStatus procedure.
         private int ToggleUserStatus(int userId, bool isActive)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -319,17 +324,6 @@ namespace toDo.Controllers
                 object result = command.ExecuteScalar();
                 return result == null || result == DBNull.Value ? 0 : Convert.ToInt32(result);
             }
-        }
-
-        private class UserSummary
-        {
-            public int UserId { get; set; }
-            public string Name { get; set; }
-            public string Email { get; set; }
-            public bool IsActive { get; set; }
-            public DateTime CreatedAt { get; set; }
-            public int TotalTasks { get; set; }
-            public int CompletedTasks { get; set; }
         }
     }
 }

@@ -72,59 +72,58 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Affected INT = 0;
+    -- The controller trims the title, but keep this guard for direct calls.
+    IF @Action = N'INSERT' AND LTRIM(RTRIM(ISNULL(@Title, N''))) = N''
+    BEGIN
+        SELECT 0 AS Affected;
+        RETURN;
+    END;
 
     IF @Action = N'INSERT'
     BEGIN
-        IF LTRIM(RTRIM(ISNULL(@Title, N''))) = N''
-        BEGIN
-            SELECT 0 AS Affected;
-            RETURN;
-        END;
-
         INSERT INTO dbo.Tasks (UserId, Title, Description)
-        VALUES
-        (
-            @UserId,
-            LTRIM(RTRIM(@Title)),
-            NULLIF(LTRIM(RTRIM(@Description)), N'')
-        );
+        VALUES (@UserId, @Title, @Description);
 
-        SET @Affected = 1;
-    END
-    ELSE IF @Action = N'UPDATE'
+        SELECT @@ROWCOUNT AS Affected;
+        RETURN;
+    END;
+
+    IF @Action = N'UPDATE'
     BEGIN
         UPDATE dbo.Tasks
-        SET
-            Title = LTRIM(RTRIM(@Title)),
-            Description = NULLIF(LTRIM(RTRIM(@Description)), N''),
+        SET Title = @Title,
+            Description = @Description,
             UpdatedAt = SYSDATETIME()
         WHERE TaskId = @TaskId
           AND UserId = @UserId;
 
-        SET @Affected = @@ROWCOUNT;
-    END
-    ELSE IF @Action = N'DELETE'
+        SELECT @@ROWCOUNT AS Affected;
+        RETURN;
+    END;
+
+    IF @Action = N'DELETE'
     BEGIN
         DELETE FROM dbo.Tasks
         WHERE TaskId = @TaskId
           AND UserId = @UserId;
 
-        SET @Affected = @@ROWCOUNT;
-    END
-    ELSE IF @Action = N'COMPLETE'
+        SELECT @@ROWCOUNT AS Affected;
+        RETURN;
+    END;
+
+    IF @Action = N'COMPLETE'
     BEGIN
         UPDATE dbo.Tasks
-        SET
-            IsCompleted = @IsCompleted,
+        SET IsCompleted = @IsCompleted,
             UpdatedAt = SYSDATETIME()
         WHERE TaskId = @TaskId
           AND UserId = @UserId;
 
-        SET @Affected = @@ROWCOUNT;
+        SELECT @@ROWCOUNT AS Affected;
+        RETURN;
     END;
 
-    SELECT @Affected AS Affected;
+    SELECT 0 AS Affected;
 END;
 GO
 
@@ -177,17 +176,10 @@ BEGIN
         U.Email,
         U.IsActive,
         U.CreatedAt,
-        COUNT(T.TaskId) AS TotalTasks,
-        ISNULL(SUM(CASE WHEN T.IsCompleted = 1 THEN 1 ELSE 0 END), 0) AS CompletedTasks
+        (SELECT COUNT(*) FROM dbo.Tasks T WHERE T.UserId = U.UserId) AS TotalTasks,
+        (SELECT COUNT(*) FROM dbo.Tasks T WHERE T.UserId = U.UserId AND T.IsCompleted = 1) AS CompletedTasks
     FROM dbo.Users U
-    LEFT JOIN dbo.Tasks T ON T.UserId = U.UserId
     WHERE U.Role = N'User'
-    GROUP BY
-        U.UserId,
-        U.Name,
-        U.Email,
-        U.IsActive,
-        U.CreatedAt
     ORDER BY U.CreatedAt DESC;
 END;
 GO

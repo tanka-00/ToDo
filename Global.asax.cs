@@ -18,6 +18,10 @@ namespace toDo
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
+        /// <summary>
+        /// Rebuilds the role principal from the "userId|role" data in the
+        /// Forms Authentication ticket, so User.IsInRole(...) works.
+        /// </summary>
         protected void Application_PostAuthenticateRequest(object sender, EventArgs e)
         {
             var identity = Context.User.Identity as FormsIdentity;
@@ -27,6 +31,7 @@ namespace toDo
                 return;
             }
 
+            // The ticket is created in BaseController.SignIn.
             string[] parts = identity.Ticket.UserData.Split('|');
 
             if (parts.Length > 1)

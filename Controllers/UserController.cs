@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
 using toDo.Filters;
 using toDo.Models;
 
@@ -15,7 +14,10 @@ namespace toDo.Controllers
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (CurrentUserId == 0 || !IsUserActive(CurrentUserId))
+            User user = CurrentUserId == 0 ? null : GetUserById(CurrentUserId);
+
+            // Sign out if the account was deleted, deactivated, or is no longer a user.
+            if (user == null || user.Role != "User" || !user.IsActive)
             {
                 SignOutUser();
 
@@ -47,11 +49,11 @@ namespace toDo.Controllers
 
             ViewBag.DisplayName = user.Name;
             ViewBag.Initials = GetInitials(user.Name);
-            ViewBag.FirstName = user.Name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? user.Name;
+            ViewBag.FirstName = GetFirstName(user.Name);
             ViewBag.Greeting = GetGreeting();
             ViewBag.DateLine = DateTime.Now.ToString("dddd, MMMM d");
 
-            return View(user);
+            return View();
         }
 
         [HttpGet]
@@ -84,15 +86,15 @@ namespace toDo.Controllers
             string title = (model.Title ?? string.Empty).Trim();
             string description = (model.Description ?? string.Empty).Trim();
 
-            if (title.Length == 0)
+            // Store an empty description as NULL.
+            if (description.Length == 0)
             {
-                return Json(new { success = false, message = "Give your task a title." });
+                description = null;
             }
 
             bool isUpdate = model.TaskId > 0;
-            string action = isUpdate ? "UPDATE" : "INSERT";
             int affected = ManageTask(
-                action,
+                isUpdate ? "UPDATE" : "INSERT",
                 CurrentUserId,
                 isUpdate ? model.TaskId : (int?)null,
                 title,
@@ -163,6 +165,7 @@ namespace toDo.Controllers
             };
         }
 
+        // Reads one user row with the GetUserById stored procedure.
         private User GetUserById(int userId)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -192,6 +195,7 @@ namespace toDo.Controllers
             }
         }
 
+        // Reads the signed-in user's tasks with the GetTasks stored procedure.
         private List<TaskItem> GetTasksForUser(int userId)
         {
             var tasks = new List<TaskItem>();
@@ -224,6 +228,7 @@ namespace toDo.Controllers
             return tasks;
         }
 
+        // Calls the ManageTask stored procedure for insert, update, delete, or complete.
         private int ManageTask(string action, int userId, int? taskId, string title, string description, bool? isCompleted)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -240,21 +245,6 @@ namespace toDo.Controllers
 
                 object result = command.ExecuteScalar();
                 return result == null || result == DBNull.Value ? 0 : Convert.ToInt32(result);
-            }
-        }
-
-        private bool IsUserActive(int userId)
-        {
-            using (SqlConnection connection = DbHelper.CreateConnection())
-            using (var command = new SqlCommand(
-                "SELECT IsActive FROM dbo.Users WHERE UserId = @UserId AND Role = N'User'",
-                connection))
-            {
-                command.Parameters.AddWithValue("@UserId", userId);
-                connection.Open();
-
-                object result = command.ExecuteScalar();
-                return result != null && result != DBNull.Value && Convert.ToBoolean(result);
             }
         }
     }
