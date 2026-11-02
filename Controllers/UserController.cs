@@ -16,7 +16,6 @@ namespace toDo.Controllers
         {
             User user = CurrentUserId == 0 ? null : GetUserById(CurrentUserId);
 
-            // Sign out if the account was deleted, deactivated, or is no longer a user.
             if (user == null || user.Role != "User" || !user.IsActive)
             {
                 SignOutUser();
@@ -86,7 +85,6 @@ namespace toDo.Controllers
             string title = (model.Title ?? string.Empty).Trim();
             string description = (model.Description ?? string.Empty).Trim();
 
-            // Store an empty description as NULL.
             if (description.Length == 0)
             {
                 description = null;
@@ -165,7 +163,6 @@ namespace toDo.Controllers
             };
         }
 
-        // Reads one user row with the GetUserById stored procedure.
         private User GetUserById(int userId)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
@@ -195,7 +192,6 @@ namespace toDo.Controllers
             }
         }
 
-        // Reads the signed-in user's tasks with the GetTasks stored procedure.
         private List<TaskItem> GetTasksForUser(int userId)
         {
             var tasks = new List<TaskItem>();
@@ -228,7 +224,6 @@ namespace toDo.Controllers
             return tasks;
         }
 
-        // Calls the ManageTask stored procedure for insert, update, delete, or complete.
         private int ManageTask(string action, int userId, int? taskId, string title, string description, bool? isCompleted)
         {
             using (SqlConnection connection = DbHelper.CreateConnection())
