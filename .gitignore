@@ -4,6 +4,5 @@ obj/
 packages/
 *.user
 *.suo
-
-# Local SQL Server backup — not used by the app
+*.sql
 /ToDoDB
