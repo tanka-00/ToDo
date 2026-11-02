@@ -1,0 +1,422 @@
+.admin-body {
+    background: var(--paper);
+}
+
+.admin-sidebar {
+    background: #191c18;
+}
+
+.admin-pill {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: var(--amber);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.admin-page-head {
+    align-items: center;
+}
+
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid #efd7a6;
+    border-radius: 999px;
+    background: var(--amber-soft);
+    color: #76520f;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .07em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-panel .panel-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 22px 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.panel-head h2 {
+    margin-top: 6px;
+    font-size: 1.7rem;
+}
+
+.panel-meta {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-panel .table-responsive {
+    position: relative;
+}
+
+.admin-panel .table-responsive:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: -3px;
+}
+
+.table-scroll-hint {
+    display: none;
+}
+
+.admin-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    padding: 11px 22px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-soft);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .11em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: 15px 22px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-table tbody tr {
+    transition: background .15s ease;
+}
+
+.admin-table tbody tr:hover {
+    background: var(--surface-soft);
+}
+
+.user-cell {
+    display: flex;
+    min-width: 220px;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-cell .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #e8e9e1;
+    font-size: 12px;
+}
+
+.user-cell-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name {
+    overflow: hidden;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-email {
+    overflow: hidden;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-cell {
+    min-width: 145px;
+}
+
+.task-cell-line {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+}
+
+.task-cell-line strong {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.04em;
+}
+
+.task-cell-line span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+}
+
+.mini-meter {
+    width: 100%;
+    max-width: 120px;
+    height: 4px;
+    margin-top: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--line);
+}
+
+.mini-meter span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--moss);
+}
+
+.joined-cell {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.row-btn {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.row-btn:hover {
+    border-color: var(--line-strong);
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.row-btn.danger {
+    border-color: #f1cfc5;
+    color: var(--coral-deep);
+}
+
+.row-btn.danger:hover {
+    background: var(--coral-soft);
+    border-color: #eab9aa;
+}
+
+.row-btn.success {
+    border-color: #c5ded2;
+    color: #245043;
+}
+
+.row-btn.success:hover {
+    background: var(--moss-soft);
+}
+
+.tasks-offcanvas {
+    --bs-offcanvas-width: 480px;
+}
+
+.tasks-offcanvas .offcanvas-header {
+    align-items: flex-start;
+    padding: 24px 24px 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.tasks-offcanvas .offcanvas-header h2 {
+    margin-top: 6px;
+    font-size: 1.6rem;
+}
+
+.tasks-panel-meta {
+    margin-top: 5px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+}
+
+.tasks-offcanvas .offcanvas-body {
+    padding: 20px 24px 32px;
+}
+
+.readonly-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-bottom: 18px;
+    padding: 12px 13px;
+    border: 1px solid #efd7a6;
+    border-radius: 12px;
+    background: var(--amber-soft);
+    color: #6b4a10;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.readonly-note svg {
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.admin-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-task-row {
+    padding: 15px 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+}
+
+.admin-task-row.is-complete {
+    background: var(--surface-soft);
+}
+
+.admin-task-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.admin-task-top .mono {
+    color: var(--muted-2);
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.admin-task-row h3 {
+    overflow-wrap: anywhere;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.admin-task-row.is-complete h3 {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--line-strong);
+}
+
+.admin-task-row p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+.admin-task-row.is-complete p {
+    opacity: .65;
+}
+
+.admin-task-row .empty-task-note {
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 991px) {
+    .admin-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-stats .stat:nth-child(2) {
+        border-right: 0;
+    }
+
+    .admin-stats .stat:nth-child(-n+2) {
+        border-bottom: 1px solid var(--line);
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-panel .panel-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        padding: 18px 16px 15px;
+    }
+
+    .table-scroll-hint {
+        display: block;
+        margin: 0;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--line);
+        background: var(--surface-soft);
+        color: var(--muted-2);
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .tasks-offcanvas {
+        --bs-offcanvas-width: 100vw;
+    }
+
+    .tasks-offcanvas .offcanvas-header,
+    .tasks-offcanvas .offcanvas-body {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+}

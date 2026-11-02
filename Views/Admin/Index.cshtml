@@ -1,0 +1,113 @@
+﻿@model toDo.Models.User
+@{
+    ViewBag.Title = "Admin console";
+}
+
+<div id="adminApp"
+     data-users-url="@Url.Action("GetUsers", "Admin")"
+     data-toggle-url="@Url.Action("ToggleUser", "Admin")"
+     data-tasks-url="@Url.Action("GetUserTasks", "Admin")">
+
+    <header class="page-head admin-page-head">
+        <div class="page-head-copy">
+            <p class="eyebrow">Admin console</p>
+            <h1>Users and their work.</h1>
+            <p class="page-sub">See every user and task. Task changes stay with the user.</p>
+        </div>
+        <span class="admin-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /></svg>
+            Read-only tasks
+        </span>
+    </header>
+
+    <section class="stats-strip admin-stats" aria-label="Admin summary">
+        <div class="stat">
+            <span class="stat-value" id="statUsers">0</span>
+            <span class="stat-label">Users</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value" id="statActive">0</span>
+            <span class="stat-label">Active</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value" id="statTasks">0</span>
+            <span class="stat-label">Tasks</span>
+        </div>
+        <div class="stat">
+            <span class="stat-value" id="statCompleted">0</span>
+            <span class="stat-label">Completed</span>
+        </div>
+    </section>
+
+    <section class="panel admin-panel" aria-labelledby="usersTitle">
+        <div class="panel-head">
+            <div>
+                <p class="eyebrow">Directory</p>
+                <h2 id="usersTitle">Users</h2>
+            </div>
+            <p class="panel-meta" id="userCountLabel">0 users</p>
+        </div>
+
+        <p class="table-scroll-hint">Scroll sideways to see all columns.</p>
+
+        <div class="table-responsive" tabindex="0" role="region" aria-labelledby="usersTitle">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th scope="col">User</th>
+                        <th scope="col">Tasks</th>
+                        <th scope="col">Joined</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" aria-label="Actions"></th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="usersLoading" class="task-loading">
+            <span class="spinner spinner-dark" aria-hidden="true"></span>
+            <span>Loading users...</span>
+        </div>
+
+        <div id="usersEmpty" class="empty-state" hidden>
+            <span class="empty-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+            </span>
+            <h2>No users yet.</h2>
+            <p>When people create accounts, they will appear here.</p>
+        </div>
+    </section>
+</div>
+
+<div class="offcanvas offcanvas-end tasks-offcanvas" tabindex="-1" id="userTasksPanel" aria-labelledby="tasksPanelTitle">
+    <div class="offcanvas-header">
+        <div>
+            <p class="eyebrow">Read-only</p>
+            <h2 id="tasksPanelTitle">User tasks</h2>
+            <p class="tasks-panel-meta" id="tasksPanelMeta"></p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="readonly-note">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /></svg>
+            <span>Admins can view tasks but cannot change them.</span>
+        </div>
+
+        <div id="adminTaskList" class="admin-task-list"></div>
+
+        <div id="adminTasksEmpty" class="empty-state" hidden>
+            <span class="empty-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
+            </span>
+            <h2>No tasks yet.</h2>
+            <p>This user has not added anything to their list.</p>
+        </div>
+
+        <div id="adminTasksLoading" class="task-loading" hidden>
+            <span class="spinner spinner-dark" aria-hidden="true"></span>
+            <span>Loading tasks...</span>
+        </div>
+    </div>
+</div>

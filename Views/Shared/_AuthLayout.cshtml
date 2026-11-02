@@ -1,0 +1,100 @@
+﻿@{
+    var isAdmin = (ViewBag.AuthMode as string) == "Admin";
+    var panelClass = isAdmin ? "auth-admin" : "auth-user";
+    var eyebrow = isAdmin ? "Admin access" : "Your workspace";
+    var headline = isAdmin ? "The back office." : "Make room for the day.";
+    var blurb = isAdmin
+        ? "See who's here and what they're working on. Read-only, by design."
+        : "One list, in your order. Sign in to pick up where you left off.";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="login-url" content="@Url.Action("Login", isAdmin ? "Admin" : "Account")" />
+    <title>@ViewBag.Title · toDo@(isAdmin ? " admin" : "")</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:opsz,wght@9..40,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    @Styles.Render("~/Content/base")
+</head>
+<body class="auth-body @panelClass">
+    <main class="auth-shell">
+        <section class="auth-aside" aria-label="@(isAdmin ? "Admin access" : "About toDo")">
+            <a class="brand brand-light" href="~/">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6" /></svg>
+                </span>
+                <span class="brand-text">toDo</span>
+            </a>
+
+            <div class="auth-aside-copy">
+                <p class="eyebrow">@eyebrow</p>
+                <p class="auth-headline">@headline</p>
+                <p>@blurb</p>
+            </div>
+
+            @if (isAdmin)
+            {
+                <div class="auth-mock" aria-hidden="true">
+                    <div class="mock-user">
+                        <span class="avatar avatar-sm">TA</span>
+                        <div><strong>Tanka Admin</strong><span>admin@gmail.com</span></div>
+                        <span class="status-pill is-active">Active</span>
+                    </div>
+                    <div class="mock-user">
+                        <span class="avatar avatar-sm avatar-soft">BB</span>
+                        <div><strong>Bob Builder</strong><span>bob@example.com</span></div>
+                        <span class="status-pill is-active">Active</span>
+                    </div>
+                    <div class="mock-user">
+                        <span class="avatar avatar-sm avatar-soft">SM</span>
+                        <div><strong>Sam Miller</strong><span>sam@example.com</span></div>
+                        <span class="status-pill is-inactive">Paused</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="auth-mock" aria-hidden="true">
+                    <div class="mock-task is-done">
+                        <span class="mock-check"></span>
+                        <div><strong>Send the revised deck</strong><span>Done</span></div>
+                    </div>
+                    <div class="mock-task">
+                        <span class="mock-check"></span>
+                        <div><strong>Review the launch checklist</strong><span>Open</span></div>
+                    </div>
+                    <div class="mock-task">
+                        <span class="mock-check"></span>
+                        <div><strong>Book the team lunch</strong><span>Open</span></div>
+                    </div>
+                </div>
+            }
+
+            <p class="auth-footnote">A small list. A clearer day.</p>
+        </section>
+
+        <section class="auth-main">
+            <div class="auth-mobile-brand">
+                <a class="brand" href="~/">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6" /></svg>
+                    </span>
+                    <span class="brand-text">toDo</span>
+                </a>
+            </div>
+
+            @RenderBody()
+        </section>
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/common")
+    @Scripts.Render("~/bundles/auth")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
