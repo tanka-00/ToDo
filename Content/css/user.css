@@ -1,3 +1,247 @@
+/* Floating Navbar & User Page Layout */
+.user-body {
+    background: var(--paper);
+    overflow-x: hidden;
+}
+
+.page.page-user {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 88px 28px 72px;
+}
+
+/* Floating Navbar: Compact at top, smoothly expanding on scroll */
+.floating-navbar {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--navbar-width, min(680px, calc(100% - 32px)));
+    max-width: calc(100% - 32px);
+    z-index: 1040;
+    will-change: width, transform;
+    transition: top 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-navbar.is-expanded {
+    top: 12px;
+}
+
+.floating-navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px 24px;
+    background: #ffffff;
+    border: 1px solid rgba(20, 32, 27, 0.12);
+    border-radius: var(--radius-full);
+    box-shadow: 0 10px 30px -4px rgba(20, 32, 27, 0.10), 0 2px 8px rgba(20, 32, 27, 0.04);
+    transition: padding 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-navbar.is-expanded .floating-navbar-inner {
+    background: #ffffff;
+    border-color: rgba(20, 32, 27, 0.16);
+    box-shadow: 0 14px 40px -4px rgba(20, 32, 27, 0.12), 0 4px 12px rgba(20, 32, 27, 0.04);
+    padding: 11px 26px;
+}
+
+.floating-navbar-brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.brand-floating {
+    display: inline-flex;
+    align-items: center;
+    color: var(--ink) !important;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    text-decoration: none;
+    line-height: 1;
+    transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.brand-floating:hover {
+    color: var(--moss) !important;
+}
+
+.floating-navbar-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* User Avatar in Navbar: Clean circular avatar button */
+.user-menu-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-avatar-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    border-radius: var(--radius-full);
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-avatar-trigger:hover,
+.user-menu-wrap.is-open .nav-avatar-trigger {
+    transform: scale(1.06);
+}
+
+.nav-avatar-trigger:focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 3px;
+}
+
+.avatar-circle {
+    border-radius: var(--radius-full) !important;
+}
+
+.avatar-nav {
+    width: 36px;
+    height: 36px;
+    background: var(--citrus);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    box-shadow: 0 1px 3px rgba(20, 32, 27, 0.08);
+    transition: box-shadow 0.18s ease;
+}
+
+.nav-avatar-trigger:hover .avatar-nav,
+.user-menu-wrap.is-open .avatar-nav {
+    box-shadow: 0 3px 10px rgba(20, 32, 27, 0.16);
+}
+
+/* Simplified Avatar Popover Modal: Avatar, Name, Email, Sign Out */
+.user-menu-popover {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 250px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 18px 44px rgba(20, 32, 27, 0.12), 0 2px 6px rgba(20, 32, 27, 0.04);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.97);
+    transform-origin: top right;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.22s ease;
+    pointer-events: none;
+    z-index: 1050;
+}
+
+.user-menu-wrap.is-open .user-menu-popover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.user-popover-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-modal {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: var(--radius-md);
+    background: var(--citrus);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 800;
+    flex: 0 0 auto;
+}
+
+.user-popover-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 2px;
+}
+
+.user-popover-meta strong {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-popover-meta span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-popover-divider {
+    height: 1px;
+    background: var(--line);
+    margin: 14px 0 10px;
+}
+
+.user-popover-logout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.user-popover-logout:hover {
+    background: var(--coral-soft);
+    color: var(--coral-deep);
+}
+
+.user-popover-logout svg {
+    flex: 0 0 auto;
+}
+
+/* User Home Content Components */
 .date-strip {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) minmax(190px, .8fr);
@@ -5,9 +249,10 @@
     gap: 22px;
     margin-bottom: 18px;
     padding: 22px 24px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     background: var(--ink);
     color: #f4f3ec;
+    box-shadow: var(--shadow-sm);
 }
 
 .date-marker {
@@ -18,7 +263,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
     background: var(--citrus);
     color: var(--ink);
 }
@@ -75,7 +320,7 @@
 .meter {
     height: 8px;
     overflow: hidden;
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     background: rgba(255, 255, 255, .13);
 }
 
@@ -90,8 +335,9 @@
 .task-panel {
     overflow: hidden;
     border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     background: var(--surface);
+    box-shadow: var(--shadow-sm);
 }
 
 .task-toolbar {
@@ -110,7 +356,7 @@
     gap: 3px;
     padding: 4px;
     border: 1px solid var(--line);
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     background: var(--paper);
 }
 
@@ -118,9 +364,9 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 13px;
+    padding: 8px 14px;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     background: transparent;
     color: var(--muted);
     font-size: 12px;
@@ -158,7 +404,7 @@
     display: flex;
     align-items: flex-start;
     gap: 14px;
-    padding: 17px 20px;
+    padding: 18px 22px;
     border-bottom: 1px solid var(--line);
     transition: background .15s ease;
 }
@@ -183,7 +429,7 @@
     appearance: none;
     place-items: center;
     border: 1.8px solid var(--line-strong);
-    border-radius: 7px;
+    border-radius: var(--radius-xs);
     background: var(--surface);
     cursor: pointer;
     transition: border-color .15s ease, background .15s ease;
@@ -261,7 +507,7 @@
 .task-actions {
     display: flex;
     flex: 0 0 auto;
-    gap: 2px;
+    gap: 4px;
     opacity: 0;
     transition: opacity .15s ease;
 }
@@ -277,7 +523,12 @@
     }
 }
 
+/* Responsive Breakpoints */
 @media (max-width: 767px) {
+    .page.page-user {
+        padding: 76px 16px 52px;
+    }
+
     .date-strip {
         grid-template-columns: auto minmax(0, 1fr);
         gap: 16px;

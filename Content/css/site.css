@@ -20,10 +20,18 @@
     --line: #e1e3d8;
     --line-strong: #cdd1c3;
     --focus: #1e5c4b;
+    --radius-xs: 6px;
     --radius-sm: 8px;
-    --radius: 14px;
-    --radius-lg: 22px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 22px;
+    --radius-full: 9999px;
+    --radius: var(--radius-md);
+    --shadow-sm: 0 1px 3px rgba(20, 32, 27, .05);
+    --shadow-md: 0 4px 16px rgba(20, 32, 27, .08);
+    --shadow-lg: 0 12px 32px rgba(20, 32, 27, .12);
     --shadow-modal: 0 24px 60px rgba(20, 32, 27, .18);
+    --shadow-float: 0 14px 34px -4px rgba(20, 32, 27, .22), 0 0 0 1px rgba(255, 255, 255, .10);
     --font-display: "Bricolage Grotesque", "Segoe UI", sans-serif;
     --font-body: "DM Sans", "Segoe UI", sans-serif;
     --font-mono: "IBM Plex Mono", Consolas, monospace;
@@ -144,28 +152,31 @@ svg {
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
     color: var(--ink);
     font-family: var(--font-display);
-    font-size: 23px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -.05em;
     line-height: 1;
+    text-decoration: none;
+    transition: opacity .15s ease, color .15s ease;
 }
 
 .brand:hover {
     color: var(--ink);
+    opacity: .88;
+}
+
+.brand-text {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: inherit;
+    font-weight: 800;
+    letter-spacing: inherit;
 }
 
 .brand-mark {
-    display: grid;
-    width: 34px;
-    height: 34px;
-    flex: 0 0 auto;
-    place-items: center;
-    border-radius: 10px;
-    background: var(--citrus);
-    color: var(--ink);
+    display: none;
 }
 
 .brand-light {
@@ -224,7 +235,7 @@ svg {
     gap: 12px;
     padding: 11px 12px;
     border: 0;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: #c9d3cc;
     font-size: 14px;
@@ -307,7 +318,7 @@ svg {
     height: 38px;
     flex: 0 0 auto;
     place-items: center;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: var(--citrus);
     color: var(--ink);
     font-family: var(--font-display);
@@ -319,7 +330,7 @@ svg {
 .avatar-sm {
     width: 34px;
     height: 34px;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     font-size: 12px;
 }
 
@@ -358,12 +369,6 @@ svg {
 
 .mobile-topbar .brand-text {
     font-size: 20px;
-}
-
-.mobile-topbar .brand-mark {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
 }
 
 .page-head {
@@ -461,7 +466,7 @@ svg {
     flex: 0 0 auto;
     place-items: center;
     border: 1px solid transparent;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     background: transparent;
     color: var(--muted);
     transition: background .15s ease, color .15s ease, border-color .15s ease;
@@ -498,7 +503,7 @@ svg {
     min-height: 46px;
     padding: 11px 14px;
     border: 1px solid var(--line-strong);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: var(--surface);
     color: var(--text);
     font-size: 15px;
@@ -548,7 +553,7 @@ textarea.form-control {
     margin-bottom: 18px;
     padding: 12px 14px;
     border: 1px solid #f1c6ba;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: var(--coral-soft);
     color: #8e2f1d;
     font-size: 13px;
@@ -597,7 +602,7 @@ textarea.form-control {
     height: 34px;
     place-items: center;
     border: 0;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: var(--muted);
     transform: translateY(-50%);
@@ -678,7 +683,8 @@ textarea.form-control {
 .auth-aside-copy {
     max-width: 560px;
     margin-top: auto;
-    margin-bottom: 38px;
+    margin-bottom: auto;
+    padding: 32px 0;
 }
 
 .auth-aside-copy .eyebrow {
@@ -705,80 +711,12 @@ textarea.form-control {
 }
 
 .auth-footnote {
-    margin-top: 28px;
+    margin-top: 0;
     color: #7f9187;
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: .08em;
     text-transform: uppercase;
-}
-
-.auth-mock {
-    display: flex;
-    width: min(100%, 430px);
-    flex-direction: column;
-    gap: 9px;
-    margin-bottom: 8px;
-}
-
-.mock-task,
-.mock-user {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    padding: 14px 16px;
-    border: 1px solid rgba(255, 255, 255, .12);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, .035);
-}
-
-.mock-task > div,
-.mock-user > div {
-    display: flex;
-    min-width: 0;
-    flex: 1;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.mock-task strong,
-.mock-user strong {
-    overflow: hidden;
-    color: #eef2e8;
-    font-size: 13px;
-    font-weight: 500;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.mock-task span:not(.mock-check),
-.mock-user span:not(.avatar):not(.status-pill) {
-    color: #87988e;
-    font-family: var(--font-mono);
-    font-size: 10px;
-}
-
-.mock-check {
-    width: 20px;
-    height: 20px;
-    flex: 0 0 auto;
-    border: 1.5px solid #677a6f;
-    border-radius: 6px;
-}
-
-.mock-task.is-done .mock-check {
-    border-color: var(--citrus);
-    background: var(--citrus);
-    box-shadow: inset 0 0 0 4px var(--ink);
-}
-
-.mock-task.is-done strong {
-    color: #94a59a;
-    text-decoration: line-through;
-}
-
-.mock-user .status-pill {
-    margin-left: auto;
 }
 
 .auth-main {
@@ -853,14 +791,7 @@ textarea.form-control {
     border-color: rgba(240, 180, 77, .24);
 }
 
-.auth-admin .auth-aside-copy .eyebrow,
-.auth-admin .auth-aside .brand-mark {
-    color: var(--ink);
-    background: var(--amber);
-}
-
 .auth-admin .auth-aside-copy .eyebrow {
-    background: transparent;
     color: var(--amber);
 }
 
@@ -874,7 +805,7 @@ textarea.form-control {
     align-items: center;
     gap: 5px;
     padding: 5px 9px;
-    border-radius: 999px;
+    border-radius: var(--radius-full);
     font-family: var(--font-mono);
     font-size: 9px;
     font-weight: 500;
@@ -923,7 +854,7 @@ textarea.form-control {
     height: 58px;
     margin-bottom: 17px;
     place-items: center;
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
     background: var(--citrus);
     color: var(--ink);
 }
@@ -959,7 +890,7 @@ textarea.form-control {
     margin-bottom: 24px;
     overflow: hidden;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     background: var(--surface);
 }
 
@@ -995,14 +926,14 @@ textarea.form-control {
 .panel {
     overflow: hidden;
     border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     background: var(--surface);
 }
 
 .modal-content {
     overflow: hidden;
-    border: 0;
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-modal);
 }
 
@@ -1054,7 +985,7 @@ textarea.form-control {
     height: 48px;
     margin: 0 auto 16px;
     place-items: center;
-    border-radius: 15px;
+    border-radius: var(--radius-md);
     background: var(--coral-soft);
     color: var(--coral-deep);
 }
@@ -1095,7 +1026,7 @@ textarea.form-control {
     gap: 11px;
     padding: 13px 15px;
     border: 1px solid rgba(255, 255, 255, .1);
-    border-radius: 13px;
+    border-radius: var(--radius-md);
     background: var(--ink);
     box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
     color: #f4f3ec;
@@ -1130,7 +1061,7 @@ textarea.form-control {
     left: 18px;
     z-index: 2000;
     padding: 14px 18px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     background: var(--coral);
     color: #ffffff;
     font-size: 13px;
@@ -1161,13 +1092,18 @@ textarea.form-control {
         display: inline-flex;
     }
 
-    .app-main {
+    .admin-body .app-main {
         margin-left: 264px;
     }
 
     .mobile-topbar {
         display: none;
     }
+}
+
+.app-user-shell {
+    width: 100%;
+    min-height: 100vh;
 }
 
 @media (max-width: 991px) {

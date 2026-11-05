@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,74 +10,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:opsz,wght@9..40,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     @Styles.Render("~/Content/base", "~/Content/user")
 </head>
-<body class="app-body">
+<body class="app-body user-body">
     <a class="skip-link" href="#mainContent">Skip to content</a>
 
-    <div class="app-shell">
-        <div class="offcanvas-lg offcanvas-start app-sidebar" tabindex="-1" id="appSidebar" aria-labelledby="appSidebarLabel">
-            <div class="offcanvas-header sidebar-mobile-head">
-                <a class="brand brand-light" href="@Url.Action("Index", "User")" id="appSidebarLabel">
-                    <span class="brand-mark" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6" /></svg>
-                    </span>
+    <header class="floating-navbar" id="floatingNavbar" role="banner">
+        <div class="floating-navbar-inner">
+            <div class="floating-navbar-brand">
+                <a class="brand brand-floating" href="@Url.Action("Index", "User")" aria-label="toDo home">
                     <span class="brand-text">toDo</span>
                 </a>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#appSidebar" aria-label="Close menu"></button>
             </div>
 
-            <div class="sidebar-inner">
-                <a class="brand brand-light brand-desktop" href="@Url.Action("Index", "User")">
-                    <span class="brand-mark" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6" /></svg>
-                    </span>
-                    <span class="brand-text">toDo</span>
-                </a>
+            <div class="floating-navbar-actions">
+                <div class="user-menu-wrap" id="userMenuDropdown">
+                    <button type="button" class="nav-avatar-trigger" id="userMenuTrigger" aria-expanded="false" aria-haspopup="true" aria-label="User account menu for @ViewBag.DisplayName">
+                        <span class="avatar avatar-circle avatar-nav">@ViewBag.Initials</span>
+                    </button>
 
-                <nav class="side-nav" aria-label="Main">
-                    <a class="side-link is-active" href="@Url.Action("Index", "User")" aria-current="page">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11" /><path d="M4 6h.01M4 12h.01M4 18h.01" /></svg>
-                        <span>My tasks</span>
-                    </a>
-                </nav>
+                    <div class="user-menu-popover" id="userMenuPopover" role="menu" aria-labelledby="userMenuTrigger" aria-hidden="true">
+                        <div class="user-popover-profile">
+                            <span class="avatar avatar-circle avatar-modal">@ViewBag.Initials</span>
+                            <div class="user-popover-meta">
+                                <strong>@ViewBag.DisplayName</strong>
+                                <span>@User.Identity.Name</span>
+                            </div>
+                        </div>
 
-                <p class="sidebar-note">One list. Your day, in order.</p>
+                        <div class="user-popover-divider"></div>
 
-                <div class="sidebar-user">
-                    <span class="avatar">@ViewBag.Initials</span>
-                    <div class="sidebar-user-meta">
-                        <strong>@ViewBag.DisplayName</strong>
-                        <span>@User.Identity.Name</span>
+                        <form class="logout-form" action="@Url.Action("Logout", "Account")" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="user-popover-logout" role="menuitem">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5M21 12H9" /></svg>
+                                <span>Sign out</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
-
-                <form class="logout-form" action="@Url.Action("Logout", "Account")" method="post">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="side-link side-link-button">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5M21 12H9" /></svg>
-                        <span>Sign out</span>
-                    </button>
-                </form>
             </div>
         </div>
+    </header>
 
-        <div class="app-main">
-            <header class="mobile-topbar">
-                <button class="icon-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#appSidebar" aria-controls="appSidebar" aria-label="Open menu">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
-                </button>
-                <a class="brand" href="@Url.Action("Index", "User")">
-                    <span class="brand-mark" aria-hidden="true">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6" /></svg>
-                    </span>
-                    <span class="brand-text">toDo</span>
-                </a>
-                <span class="avatar avatar-sm">@ViewBag.Initials</span>
-            </header>
-
-            <main class="page" id="mainContent">
-                @RenderBody()
-            </main>
-        </div>
+    <div class="app-user-shell">
+        <main class="page page-user" id="mainContent">
+            @RenderBody()
+        </main>
     </div>
 
     @Html.AntiForgeryToken()
